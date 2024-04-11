@@ -4,6 +4,8 @@ from sklearn.datasets import load_iris
 from sklearn.model_selection import train_test_split
 from sklearn.naive_bayes import GaussianNB
 from sklearn.metrics import confusion_matrix, accuracy_score
+import matplotlib.pyplot as plt
+import seaborn as sns
 
 # Load the Iris dataset
 iris = load_iris()
@@ -12,7 +14,7 @@ y = iris.target
 
 # Split the dataset into training and testing sets
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=1)
-
+ 
 # Implement the Naive Bayes classifier
 model = GaussianNB()
 
@@ -22,14 +24,25 @@ model.fit(X_train, y_train)
 # Predict the test set results
 y_pred = model.predict(X_test)
 
-# Evaluate the model
-print("Confusion Matrix:\n", confusion_matrix(y_test, y_pred))
-print("Accuracy: ", accuracy_score(y_test, y_pred))
+# Calculate the accuracy of the model
+accuracy = accuracy_score(y_test, y_pred)
+print("Accuracy:", accuracy)
 
-# Print the errors 
-errors = 0
-for i in range(len(y_test)):
-    if y_test[i] != y_pred[i]:
-        errors += 1
-print("Errors: ", errors)
-print("Error Rate: ", errors / len(y_test))
+# Calculate the confusion matrix
+conf_matrix = confusion_matrix(y_test, y_pred)
+print("\nConfusion Matrix:")
+print(conf_matrix)
+
+# Plot the confusion matrix
+plt.figure(figsize=(8, 6))
+sns.heatmap(conf_matrix, annot=True, cmap='Blues', fmt='g')
+plt.xlabel('Predicted labels')
+plt.ylabel('True labels')
+plt.title('Confusion Matrix')
+plt.show()
+
+# Classification Report
+from sklearn.metrics import classification_report
+print("\nClassification Report:")
+print(classification_report(y_test, y_pred))
+

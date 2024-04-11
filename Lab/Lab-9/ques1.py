@@ -11,7 +11,7 @@
 # 5 Rain Cool Normal Weak Yes
 # 6 Rain Cool Normal Strong No
 # 7 Overcast Cool Normal Strong Yes
-# 8 Sunny Mild High Weak No
+# 8 Sunny Mild High Weak No 
 # 9 Sunny Cool Normal Weak Yes
 # 10 Rain Mild Normal Weak Yes
 # 11 Sunny Mild Normal Strong Yes
@@ -55,11 +55,18 @@ y_pred = model.predict(X_test)
 print("Confusion Matrix:\n", confusion_matrix(y_test, y_pred))
 print("Accuracy: ", accuracy_score(y_test, y_pred))
 
-# Print the errors 
-errors = 0
-for i in range(len(y_test)):
-    if y_test[i] != y_pred[i]:
-        errors += 1
-print("Errors: ", errors)
-print("Error Rate: ", errors / len(y_test))
+# Plot the confusion matrix
+import matplotlib.pyplot as plt
+import seaborn as sns
+plt.figure(figsize=(8, 6))
+sns.heatmap(confusion_matrix(y_test, y_pred), annot=True, cmap='Blues', fmt='g')
+plt.xlabel('Predicted labels')
+plt.ylabel('True labels')
+plt.title('Confusion Matrix')
+plt.show()
+
+# Classification Report
+from sklearn.metrics import classification_report
+print("\nClassification Report:")
+print(classification_report(y_test, y_pred))
 
